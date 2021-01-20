@@ -1,7 +1,47 @@
 ﻿@page "/"
 
-<h1>Hello, world!</h1>
+<img class="card-img-top" src="~/daytona.jpg" @onmousemove="@(e => Coordinates = $"X = { e.ClientX } Y = { e.ClientY }")" />
 
-Welcome to your new app.
+<h1>@Coordinates</h1>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<button class="btn btn-primary" @onclick="@Button_Click">@ButtonText</button>
+
+<div class="card-footer text-center @CssClass">
+    <a href="/" class="btn btn-primary">Back</a>
+    <a href="#" class="btn btn-primary">Edit</a>
+    <a href="#" class="btn btn-danger">Delete</a>
+</div>
+
+<style>
+    .HideFooter {
+        display: none;
+    }
+</style>
+
+@code {
+    protected string ButtonText { get; set; } = "Hide Footer";
+    protected string CssClass { get; set; } = null;
+
+    protected void Button_Click()
+    {
+        if (ButtonText == "Hide Footer")
+        {
+            ButtonText = "Show Footer";
+            CssClass = "HideFooter";
+        }
+        else
+        {
+            CssClass = null;
+            ButtonText = "Hide Footer";
+        }
+    }
+
+    protected string Coordinates { get; set; }
+
+    protected void Mouse_Move(MouseEventArgs e)
+    {
+        Coordinates = $"X = { e.ClientX } Y = { e.ClientY }";
+    }
+
+    //Reference: pragimtech.com/blog/blazor/blazor-event-handling/
+}
